@@ -1,0 +1,22 @@
+version: 2
+
+models:
+  - name: all_plans_and_locations_exploded_raw
+    description: |
+      This is raw data and contains an exploded iteration of all combination of 
+      data points, given that the source was aggregated from a list of json blob.
+    columns:
+      - name: primary_key
+        description: "Unique identifier generated from each block of reporting plans provided by Anthem."
+        tests:
+          - not_null
+      - name: plan_name
+        description: "Healthcare plan name."   
+      - name: plan_id_type
+        description: "HIOS/EIN identifier."    
+      - name: plan_id
+        description: "Id associated to the plan_type (HIOS/EIN)."
+      - name: description
+        description: "Description of the file included"
+      - name: location
+        description: "url domain of where in-network data can be downloaded."

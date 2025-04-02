@@ -1,0 +1,47 @@
+version: 2
+
+sources:
+  - name: healthcare_pricing
+    database:  "{{ env_var('DUCKDB_DATABASE_NAME') }}"
+    schema: main   
+    tables:
+      - name: reporting_plans
+        description: "Reporting plans data metadata information can be found: https://github.com/CMSgov/price-transparency-guide/tree/master/schemas/table-of-contents"
+        columns:
+          - name: primary_key
+            description: "Unique identifier generated from each block of reporting plans provided by Anthem."
+            tests:
+              - not_null
+          - name: plan_name
+            description: "Healthcare plan name."    
+          - name: plan_id_type
+            description: "HIOS/EIN identifier."
+            tests:
+              - accepted_values:
+                  values: ['HIOS', 'EIN']      
+          - name: plan_id
+            description: "Id associated to the plan_type (HIOS/EIN)."
+          - name: plan_market_type
+            description: "Type of market."
+            tests:
+              - accepted_values:
+                  values: ['group', 'individual']
+      - name: in_network_files
+        description: "Healthcare in network files data"
+        columns:
+          - name: primary_key
+            description: "Unique identifier generated from each block of reporting plans provided by Anthem."
+            tests:
+              - not_null              
+              - relationships:
+                  to: source('healthcare_pricing', 'reporting_plans')
+                  field: primary_key   
+          - name: description
+            description: "Description of the file included"
+            tests:
+              - not_null              
+          - name: location
+            description: "url domain of where in-network data can be downloaded."
+            tests:
+              - not_null
+      - name: allowed_amount_file

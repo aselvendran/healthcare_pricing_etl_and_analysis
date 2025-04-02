@@ -1,0 +1,29 @@
+version: 2
+
+models:
+  - name: ny_anthem_ppo
+    description: |
+      NY Anthem PPO data filtered from the aggregated raw plans data. This is taking into assumption that the filtering can be done
+      by the plan_name and a subtext from the location domain URL.
+    columns:
+      - name: primary_key
+        description: "Unique identifier generated from each block of reporting plans provided by Anthem."
+        tests:
+          - not_null
+      - name: plan_name
+        description: "Healthcare plan name."   
+      - name: plan_id_type
+        description: "HIOS/EIN identifier."    
+      - name: plan_id
+        description: "Id associated to the plan_type (HIOS/EIN)."
+      - name: description
+        description: "Description of the file included"
+        tests:
+          - accepted_values:
+              values: ['In-Network Negotiated Rates Files']
+      - name: location
+        description: "url domain of where in-network data can be downloaded."
+      - name: cnt_records_per_json_block
+        description: "Total count of records per json block transformed in the sources layer."
+      - name: cnt_location
+        description: "Total count of location points per json block."

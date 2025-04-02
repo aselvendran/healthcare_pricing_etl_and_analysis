@@ -1,0 +1,26 @@
+name: 'anthem_analysis_data_yard'
+version: 1.0.0
+
+config-version: 2
+
+profile: 'anthem-analysis'
+
+model-paths: ["models"]
+test-paths: ["test"]
+macro-paths: ["macros"] 
+
+target-path: "target"
+
+clean-targets:
+  - "target"
+
+  
+models:
+  anthem_analysis_data_yard:
+    +materialized: table
+    0_sources:
+      schema: main
+    1_staging:
+      +schema: staging
+    2_analytics:
+      +schema: analytics

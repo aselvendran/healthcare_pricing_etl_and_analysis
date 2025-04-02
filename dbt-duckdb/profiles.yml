@@ -1,0 +1,13 @@
+config:
+  partial_parse: true
+
+anthem-analysis:
+  outputs:
+    dbt-dev:
+      type: duckdb
+      path: "{{ env_var('DUCKDB_PATH', '/home/healthcare_pricing/raw_data/anthem_data.db') }}"
+      threads: 4
+      extensions:
+        - httpfs
+
+  target: dbt-dev
